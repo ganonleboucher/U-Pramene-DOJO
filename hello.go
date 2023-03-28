@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-type BigBeerStock struct {
+type BeerProduct struct {
 	name     string
 	price    float64
 	quantity uint
@@ -22,16 +22,29 @@ func main() {
 	//}
 
 	//KATA 2
-	fmt.Println(BigBeerStock{"Svijany", 2.50, 20})
-	var svijany = BigBeerStock{"Svijany", 2.50, 20}
-	var beers = []BigBeerStock{
+	var svijany = BeerProduct{"Svijany", 2.50, 20}
+	var stock = []BeerProduct{
 		svijany,
 		{"Kozel", 3.50, 12},
 		{"Bernard", 1.80, 42},
 		{"Radegast", 2.70, 27},
 	}
 
-	for i := 0; i < len(beers); i++ {
-		fmt.Println("Il reste", beers[i].quantity, "de la biere", beers[i].name, "en stock !")
+	for i := 0; i < len(stock); i++ {
+		fmt.Println("Il reste", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
 	}
+
+	var caisse float64 = 0
+	var biereDemandee = stock[1]
+	var quantiteDemandee uint = 2
+	fmt.Println("Je voudrais", quantiteDemandee, "de", biereDemandee.name, "svp.")
+
+	stock[1].quantity -= quantiteDemandee
+	// same as: stock[1].quantity = stock[1].quantity - 2
+	// *= += ...
+	caisse += stock[1].price * float64(quantiteDemandee)
+	for i := 0; i < len(stock); i++ {
+		fmt.Println("Il reste desormais", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
+	}
+	fmt.Println("Il y a desormais", caisse, "dollars dans la caisse !")
 }
