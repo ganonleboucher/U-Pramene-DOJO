@@ -11,6 +11,26 @@ type BeerProduct struct {
 	quantity uint
 }
 
+func vendre(nomBiere string, quantiteDemandee uint, stock []BeerProduct) { //nom de la bière, la quantité souhaitée, stock
+	fmt.Println("Je voudrais", quantiteDemandee, "de", nomBiere, "svp.")
+	var indexBiere int = -1
+	for i := 0; i < len(stock); i++ {
+		if nomBiere == stock[i].name {
+			indexBiere = i
+			break
+		}
+	}
+
+	if indexBiere == -1 {
+		fmt.Println("Nous n'avons pas de", nomBiere, "en stock !")
+	} else if quantiteDemandee > stock[indexBiere].quantity {
+		fmt.Println("J'ai pas assez de", stock[indexBiere].name, "sale poch' !")
+	} else {
+		stock[indexBiere].quantity -= quantiteDemandee
+		fmt.Println("Il reste desormais", stock[indexBiere].quantity, "de la biere", stock[indexBiere].name, "en stock !")
+	}
+}
+
 func main() {
 	//KATA 1
 	//var beers = []string{"Svijany", "Kozel", "Bernard", "Radegast"}
@@ -34,17 +54,27 @@ func main() {
 		fmt.Println("Il reste", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
 	}
 
-	var caisse float64 = 0
-	var biereDemandee = stock[1]
-	var quantiteDemandee uint = 2
-	fmt.Println("Je voudrais", quantiteDemandee, "de", biereDemandee.name, "svp.")
+	vendre("Kozel", 2, stock)
+	vendre("Radegast", 220, stock)
+	vendre("Sibeeria", 22, stock)
 
-	stock[1].quantity -= quantiteDemandee
-	// same as: stock[1].quantity = stock[1].quantity - 2
-	// *= += ...
-	caisse += stock[1].price * float64(quantiteDemandee)
 	for i := 0; i < len(stock); i++ {
-		fmt.Println("Il reste desormais", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
+		fmt.Println("Il reste", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
 	}
-	fmt.Println("Il y a desormais", caisse, "dollars dans la caisse !")
+
+	/*
+		var caisse float64 = 0
+		var biereDemandee = stock[1]
+		var quantiteDemandee uint = 2
+		fmt.Println("Je voudrais", quantiteDemandee, "de", biereDemandee.name, "svp.")
+
+		stock[1].quantity -= quantiteDemandee
+		// same as: stock[1].quantity = stock[1].quantity - 2
+		// *= += ...
+		caisse += stock[1].price * float64(quantiteDemandee)
+		for i := 0; i < len(stock); i++ {
+			fmt.Println("Il reste desormais", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
+		}
+		fmt.Println("Il y a desormais", caisse, "dollars dans la caisse !")
+	*/
 }
