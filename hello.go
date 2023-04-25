@@ -11,7 +11,7 @@ type BeerProduct struct {
 	quantity uint
 }
 
-func vendre(nomBiere string, quantiteDemandee uint, stock []BeerProduct) { //nom de la bière, la quantité souhaitée, stock
+func vendre(nomBiere string, quantiteDemandee uint, stock []BeerProduct) {
 	fmt.Println("Je voudrais", quantiteDemandee, "de", nomBiere, "svp.")
 	var indexBiere int = -1
 	for i := 0; i < len(stock); i++ {
@@ -20,7 +20,6 @@ func vendre(nomBiere string, quantiteDemandee uint, stock []BeerProduct) { //nom
 			break
 		}
 	}
-
 	if indexBiere == -1 {
 		fmt.Println("Nous n'avons pas de", nomBiere, "en stock !")
 	} else if quantiteDemandee > stock[indexBiere].quantity {
@@ -28,6 +27,27 @@ func vendre(nomBiere string, quantiteDemandee uint, stock []BeerProduct) { //nom
 	} else {
 		stock[indexBiere].quantity -= quantiteDemandee
 		fmt.Println("Il reste desormais", stock[indexBiere].quantity, "de la biere", stock[indexBiere].name, "en stock !")
+	}
+}
+
+func showAllStock(stock []BeerProduct) {
+	for i := 0; i < len(stock); i++ {
+		fmt.Println("Il y a en tout", stock[i].quantity, "de", stock[i].name, "en stock !")
+	}
+}
+
+func showItemStock(name string, stock []BeerProduct) {
+	var indexBiere int = -1
+	for i := 0; i < len(stock); i++ {
+		if name == stock[i].name {
+			indexBiere = i
+			break
+		}
+	}
+	if indexBiere == -1 {
+		fmt.Println("Il n'y a pas de", name, "en stock !")
+	} else {
+		fmt.Println("Il y a", stock[indexBiere].quantity, "de la biere", name, "en stock !")
 	}
 }
 
@@ -50,17 +70,27 @@ func main() {
 		{"Radegast", 2.70, 27},
 	}
 
-	for i := 0; i < len(stock); i++ {
-		fmt.Println("Il reste", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
-	}
+	fmt.Println("===============================")
+	showAllStock(stock)
 
+	fmt.Println("===============================")
 	vendre("Kozel", 2, stock)
+	fmt.Println("===============================")
 	vendre("Radegast", 220, stock)
+	fmt.Println("===============================")
 	vendre("Sibeeria", 22, stock)
 
-	for i := 0; i < len(stock); i++ {
-		fmt.Println("Il reste", stock[i].quantity, "de la biere", stock[i].name, "en stock !")
-	}
+	fmt.Println("===============================")
+	showAllStock(stock)
+
+	fmt.Println("===============================")
+	showItemStock("Radegast", stock)
+	fmt.Println("===============================")
+	showItemStock("Svijany", stock)
+	fmt.Println("===============================")
+	showItemStock("Sibeeria", stock)
+	fmt.Println("===============================")
+
 
 	/*
 		var caisse float64 = 0

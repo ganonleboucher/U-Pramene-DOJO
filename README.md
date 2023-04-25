@@ -23,9 +23,13 @@ Fix git!!! Good
 La bite? Narf explain ~~ ( la bite sert a plein de choses, mais surtout a ne pas mettre de "var" )
 Representation de l'inventaire des bieres (nom, prix, quantiter)
 
-## KATA 3
+## KATA 3, 4
 
 achat de bière interactif : quelle bière et combien
-    retrouver l'index de la bière a partir de son nom
+    ~~retrouver l'index de la bière a partir de son nom~~
     récupérer les informations depuis le terminal
-    (bonus) tout séparer proprement dans des fonctions, acheter / afficher
+    (bonus) tout séparer proprement dans des fonctions, ~~acheter~~ / afficher
+
+## KATA 5
+
+function pour consulter le stock
