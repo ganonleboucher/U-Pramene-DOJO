@@ -11,22 +11,33 @@ type BeerProduct struct {
 	quantity uint
 }
 
-func vendre(nomBiere string, quantiteDemandee uint, stock []BeerProduct) {
-	fmt.Println("Je voudrais", quantiteDemandee, "de", nomBiere, "svp.")
-	var indexBiere int = -1
+type Caisse struct {
+	startDay float64
+	balance  float64
+}
+
+func getIndexBiere(nomBiere string, stock []BeerProduct) int { //find algorithm => rechercher l'index d'un element dans une collection a partir d'un critère discriminant ( ici le nom de la bière )
 	for i := 0; i < len(stock); i++ {
 		if nomBiere == stock[i].name {
-			indexBiere = i
-			break
+			return i
 		}
 	}
+	return -1
+}
+
+func withdrawFromStock(nomBiere string, quantiteDemandee uint, stock []BeerProduct) uint {
+	fmt.Println("Je voudrais", quantiteDemandee, "de", nomBiere, "svp.")
+	var indexBiere int = getIndexBiere(nomBiere, stock)
 	if indexBiere == -1 {
-		fmt.Println("Nous n'avons pas de", nomBiere, "en stock !")
+		fmt.Println("Nous n'avons pas ou plus de", nomBiere, "en stock !")
+		return 0
 	} else if quantiteDemandee > stock[indexBiere].quantity {
 		fmt.Println("J'ai pas assez de", stock[indexBiere].name, "sale poch' !")
+		return 0
 	} else {
 		stock[indexBiere].quantity -= quantiteDemandee
 		fmt.Println("Il reste desormais", stock[indexBiere].quantity, "de la biere", stock[indexBiere].name, "en stock !")
+		return quantiteDemandee
 	}
 }
 
@@ -37,19 +48,23 @@ func showAllStock(stock []BeerProduct) {
 }
 
 func showItemStock(name string, stock []BeerProduct) {
-	var indexBiere int = -1
-	for i := 0; i < len(stock); i++ {
-		if name == stock[i].name {
-			indexBiere = i
-			break
-		}
-	}
+	var indexBiere int = getIndexBiere(name, stock)
 	if indexBiere == -1 {
 		fmt.Println("Il n'y a pas de", name, "en stock !")
 	} else {
 		fmt.Println("Il y a", stock[indexBiere].quantity, "de la biere", name, "en stock !")
 	}
 }
+
+/*func ajoutCash(beerWithdrawn uint, caisse Caisse, stock []BeerProduct) uint {
+	var indexBiere int = -1
+	for i := 0; i < len(stock); i++ {
+		if prixBiere == stock[i].price {
+			indexBiere = i
+			break
+		}
+	}
+}*/
 
 func main() {
 	//KATA 1
@@ -62,6 +77,7 @@ func main() {
 	//}
 
 	//KATA 2
+	//var caisse = Caisse{startDay: 80.37, balance: 0}
 	var svijany = BeerProduct{"Svijany", 2.50, 20}
 	var stock = []BeerProduct{
 		svijany,
@@ -73,12 +89,16 @@ func main() {
 	fmt.Println("===============================")
 	showAllStock(stock)
 
+	fmt.Println("=============VENTE DE KOZEL==================")
+
+	var beerWithdrawn = withdrawFromStock("Kozel", 2, stock)
+	fmt.Println("beer withdrawn :", beerWithdrawn)
+	//ajoutCash("Kozel", stock, beerWithdrawn, caisse)
+
 	fmt.Println("===============================")
-	vendre("Kozel", 2, stock)
+	withdrawFromStock("Radegast", 220, stock)
 	fmt.Println("===============================")
-	vendre("Radegast", 220, stock)
-	fmt.Println("===============================")
-	vendre("Sibeeria", 22, stock)
+	withdrawFromStock("Sibeeria", 22, stock)
 
 	fmt.Println("===============================")
 	showAllStock(stock)
@@ -90,7 +110,6 @@ func main() {
 	fmt.Println("===============================")
 	showItemStock("Sibeeria", stock)
 	fmt.Println("===============================")
-
 
 	/*
 		var caisse float64 = 0
